@@ -1,7 +1,7 @@
 {
   "name": "react-native-advanced-forms",
   "version": "1.0.0",
-  "description": "React Native architecture for easily building, maintaining and managing forms",
+  "description": "Flexible React Native architecture for building and managing forms",
   "main": "src/index.js",
   "dependencies": {
     "react-native-keyboard-spacer": "^0.3.1"
