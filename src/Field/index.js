@@ -10,7 +10,7 @@ export default class Field extends Component {
     super(props, ctx)
 
     this.state = {
-      showFieldError: false
+      error: null,
     }
   }
 
@@ -27,7 +27,7 @@ export default class Field extends Component {
       children
     } = this.props
 
-    const { showFieldError } = this.state
+    const { error } = this.state
 
     const onlyChild = Children.only(children)
 
@@ -35,10 +35,10 @@ export default class Field extends Component {
 
     const kid = cloneElement(onlyChild, {
       ref: 'child',
-      showFieldError,
+      error,
       onSubmit: () => {
         this.setState({
-          showFieldError: false
+          error: null,
         }, () => {
           onSubmit && onSubmit(name)
         })
@@ -46,7 +46,7 @@ export default class Field extends Component {
       onChange: (value) => {
         // remove error highlight
         this.setState({
-          showFieldError: false
+          error: null,
         }, () => {
           // child's own change handler
           onChildChange && onChildChange(value)
@@ -82,11 +82,9 @@ export default class Field extends Component {
     }
   }
 
-  showFieldError (name, err) {
+  showFieldError (name, error) {
     if (this.props.name === name) {
-      this.setState({
-        showFieldError: err
-      })
+      this.setState({ error })
     }
   }
 

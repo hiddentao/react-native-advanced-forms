@@ -1,17 +1,10 @@
 import React, { Component, PropTypes, Children, cloneElement } from 'react'
 import { View } from 'react-native'
-import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import styles from './styles'
 import { componentsCall, VALIDATION_RESULT } from './utils'
 
 export default class Form extends Component {
-  getChildContext () {
-    return {
-      getParentScrollView: this.props.getParentScrollView
-    }
-  }
-
   render () {
     const { children, style } = this.props
 
@@ -25,7 +18,6 @@ export default class Form extends Component {
     return (
       <View style={style || styles.container}>
         {kids}
-        <KeyboardSpacer />
       </View>
     )
   }
@@ -40,7 +32,7 @@ export default class Form extends Component {
 
   onSubmitField = (submittedFieldName) => {
     const {
-      getValidationResult,
+      validate,
       onSubmit,
       onPreFocusField,
       onValidationError
@@ -52,7 +44,7 @@ export default class Form extends Component {
     // get current field values
     const values = this.getValues()
     // validate field values
-    const badFields = getValidationResult(values) || {}
+    const badFields = validate(values) || {}
     // get names of fields which failed validation
     const badFieldNames = Object.keys(badFields)
 
@@ -107,37 +99,26 @@ export default class Form extends Component {
   }
 }
 
-Form.childContextTypes = {
-  getParentScrollView: PropTypes.func
-}
-
 Form.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  getValidationResult: PropTypes.func.isRequired,
+  validate: PropTypes.func.isRequired,
   onValidationError: PropTypes.func,
   onFocusField: PropTypes.func,
   getParentScrollView: PropTypes.func,
   style: PropTypes.object,
 }
 
-import Dropdown from './Dropdown'
 import Field from './Field'
 import Label from './Label'
 import LabelGroup from './LabelGroup'
 import Layout from './Layout'
-import FlipCardLayout from './FlipCardLayout'
 import Section from './Section'
 import TextInput from './TextInput'
-import Switch from './Switch'
-import CheckBox from './CheckBox'
-import CityPicker from './CityPicker'
-import YearPicker from './YearPicker'
-import GenderPicker from './GenderPicker'
-import CountryPicker from './CountryPicker'
 
 Form.Field = Field
 Form.Label = Label
 Form.LabelGroup = LabelGroup
 Form.Layout = Layout
 Form.Section = Section
+Form.TextInput = TextInput
