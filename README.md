@@ -4,7 +4,8 @@
 [![Join the chat at https://discord.gg/bYt4tWB](https://img.shields.io/badge/discord-join%20chat-738bd7.svg?style=flat-square)](https://discord.gg/bYt4tWB)
 [![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/hiddentao)
 
-![Demo](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/rec2.gif "Demo")
+![Demo1](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/rec2.gif "Demo1")
+![Demo2](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/rec1.gif "Demo2")
 
 Flexible React Native architecture for building and managing forms.
 
