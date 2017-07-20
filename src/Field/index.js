@@ -17,7 +17,7 @@ export default class Field extends Component {
   render () {
     const {
       name,
-      labelText,
+      label,
       labelStyle,
       labelTextStyle,
       labelRightContent,
@@ -95,6 +95,7 @@ export default class Field extends Component {
   getChild () {
     const { child } = this.refs
 
+    // take redux connect and other such wrappers into account
     return (child.getWrappedInstance)
       ? child.getWrappedInstance()
       : child
@@ -105,9 +106,9 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
-  labelText: PropTypes.string,
-  labelStyle: PropTypes.object,
-  labelTextStyle: PropTypes.object,
-  labelRightContent: PropTypes.object,
-  style: PropTypes.object,
+  label: PropTypes.string,
+  labelStyle: PropTypes.any,
+  labelTextStyle: PropTypes.any,
+  labelRightContent: PropTypes.any,
+  style: PropTypes.any,
 }

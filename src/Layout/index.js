@@ -1,9 +1,9 @@
-import React, { Component, Children, cloneElement } from 'react'
+import React, { Component, Children, cloneElement, PropTypes } from 'react'
 import { View } from 'react-native'
 
 import { componentsCall } from '../utils'
 
-export default class View extends Component {
+export default class Layout extends Component {
   render () {
     const { children, style, ...props } = this.props
 
@@ -21,18 +21,22 @@ export default class View extends Component {
   }
 
   unfocusFields () {
-    batchExec(this.refs, 'unfocusFields')
+    componentsCall(this.refs, 'unfocusFields')
   }
 
-  focusOnField (name) {
-    batchExec(this.refs, 'focusOnField', name)
+  focusField (name) {
+    componentsCall(this.refs, 'focusField', name)
   }
 
-  showFieldError (name) {
-    batchExec(this.refs, 'showFieldError', name)
+  showFieldError (name, error) {
+    componentsCall(this.refs, 'showFieldError', name, error)
   }
 
-  addFieldValueTo (obj) {
-    batchExec(this.refs, 'addFieldValueTo', obj)
+  collectFieldValues (obj) {
+    componentsCall(this.refs, 'collectFieldValues', obj)
   }
+}
+
+Layout.propTypes = {
+  style: PropTypes.any,
 }

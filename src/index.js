@@ -34,7 +34,7 @@ export default class Form extends Component {
     const {
       validate,
       onSubmit,
-      onPreFocusField,
+      onFocusField,
       onValidationError
     } = this.props
 
@@ -50,10 +50,10 @@ export default class Form extends Component {
 
     // if some fields failed validation
     if (badFieldNames.length) {
-      onValidationError(badFieldNames)
+      onValidationError && onValidationError(badFieldNames)
 
       // highlight incorrect fields
-      fieldNames.forEach(f => {
+      badFieldNames.forEach(f => {
         const fieldValidationResult = badFields[f]
 
         // only count missing fields if we submitted the form as a whole
@@ -67,7 +67,7 @@ export default class Form extends Component {
 
       // trigger pre-focus callback
       const _focusCall = () =>
-        setTimeout(() => componentsCall(components, 'focusField', fieldName), 0)
+        setTimeout(() => componentsCall(this.refs, 'focusField', firstBadFieldName), 0)
 
       onFocusField
         ? onFocusField(firstBadFieldName, _focusCall)
@@ -105,20 +105,21 @@ Form.propTypes = {
   validate: PropTypes.func.isRequired,
   onValidationError: PropTypes.func,
   onFocusField: PropTypes.func,
-  getParentScrollView: PropTypes.func,
   style: PropTypes.object,
 }
+
+Form.VALIDATION_RESULT = VALIDATION_RESULT
 
 import Field from './Field'
 import Label from './Label'
 import LabelGroup from './LabelGroup'
 import Layout from './Layout'
 import Section from './Section'
-import TextInput from './TextInput'
+import TextField from './TextField'
 
 Form.Field = Field
 Form.Label = Label
 Form.LabelGroup = LabelGroup
 Form.Layout = Layout
 Form.Section = Section
-Form.TextInput = TextInput
+Form.TextField = TextField

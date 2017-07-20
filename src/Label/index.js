@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { View, Text } from 'react-native'
 
 import styles from './styles'
@@ -18,4 +18,9 @@ export default class Label extends Component {
       </View>
     )
   }
+}
+
+Label.propTypes = {
+  style: PropTypes.any,
+  textStyle: PropTypes.any,
 }

@@ -1,7 +1,7 @@
 import { findNodeHandle } from 'react-native'
 
 export const componentsCall = (components, methodName, ...args) => {
-  for (let key of components) {
+  for (let key in components) {
     const c = components[key]
 
     if (c[methodName]) {

@@ -4,9 +4,10 @@ import { TextInput as NativeTextInput } from 'react-native'
 import { scrollToComponentInScrollView } from '../utils'
 import styles from './styles'
 
-export default class TextInput extends Component {
+export default class TextField extends Component {
   render () {
     const {
+      value,
       onChange,
       onSubmit,
       error,
@@ -18,6 +19,7 @@ export default class TextInput extends Component {
     return (
       <NativeTextInput
         {...props}
+        value={value}
         style={error ? (errorStyle || styles.error) : (style || styles.normal)}
         ref="nativeField"
         onChangeText={onChange}
@@ -54,14 +56,16 @@ export default class TextInput extends Component {
   }
 }
 
-FormTextInput.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
-  style: PropTypes.object,
-  errorStyle: PropTypes.object,
+TextField.propTypes = {
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  error: PropTypes.any,
+  style: PropTypes.any,
+  errorStyle: PropTypes.any,
 }
 
-FormTextInput.defaultProps = {
+TextField.defaultProps = {
   error: null,
+  value: '',
 }
