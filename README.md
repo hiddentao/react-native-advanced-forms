@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
 
 ## API and props
 
-**Form**
+### Form
 
 This is the root component for a form and is responsible for co-ordinating
 form value changes and auto-focussing components.
@@ -172,7 +172,7 @@ Methods:
 | `unfocus` | `undefined` | Unfocus all form fields. |
 | `getValues` | `Object` | Get current form field values. |
 
-**Form.Layout**
+### Form.Layout
 
 This component works similarly to React Native `View` and is to be used to create whatever type of layout your require for your form. `Form.Layout` instances can be nested within each other to multiple levels without issue.
 
@@ -182,7 +182,7 @@ Properties:
 | --------- | --------- | --------- | --------- |
 | `style` | `Any` | `null` | Styling to apply to form container element.  |
 
-**Form.Section**
+### Form.Section
 
 This is a convenience component which constructs a `Form.Layout` to wrap its children but additionally attaches text above it:
 
@@ -197,7 +197,7 @@ Properties:
 | `layoutStyle` | `Any` | `null` | Style to apply to nested `Form.Layout`.  |
 | `titleTextStyle` | `Any` | `null` | Style to apply to title text, is shown.  |
 
-**Form.Field**
+### Form.Field
 
 This component **must** wrap every actual input element. It is responsible for setting up `onChange` and `onSubmit` handlers as well as pass through focus/unfocus and error display commands from the parent form.
 
@@ -214,7 +214,7 @@ If a `label` gets passed in it will use `Form.LabelGroup` and `Form.Label` to re
 | `onSubmit` | `Function` | `null` | Usually set by the parent `Form`.  |
 | `onChange` | `Function` | `null` | Usually set by the parent `Form`.  |
 
-**Form.TextField**
+### Form.TextField
 
 A text field designed to work well with a `Form`.
 
@@ -228,7 +228,7 @@ A text field designed to work well with a `Form`.
 | `onChange` | `Function` | `null` | Usually set by the parent `Form.Field`.  |
 
 
-**Form.Label**
+### Form.Label
 
 Text to display above a form field element as its label. Gets automatically rendered by `Form.Field` if a label has been set.
 
@@ -237,13 +237,11 @@ Text to display above a form field element as its label. Gets automatically rend
 | `style` | Any | `null` | The style for the root container.  |
 | `textStyle` | Any | `null` | The style for the label text.  |
 
-**Form.LabelGroup**
+### Form.LabelGroup
 
 A helper component which wraps a `Form.Label`, allowing for additional components to be displayed alongside it.
 
-## Technical notes
-
-### Flexible layouts
+## Flexible layouts
 
 The `Form.Layout` component is key to achieving flexible layouts. By default, if you don't use `Form.Layout` then components will be stacked on top of each other (assuming default `flexDirection` for the `Form`):
 
@@ -307,7 +305,7 @@ And you can nest layouts:
 </Form>
 ```
 
-### Form validation and submission
+## Form validation and submission
 
 You must provide a `validate` property to the form, the value of which is a
 function which returns which fields have failed validation, for example:
@@ -356,9 +354,9 @@ field (i.e. you enter text and then press _done_ or the equivalent on your
 
 ![Demo2](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/rec2.gif "Demo2")
 
-### Custom components
+## Custom components
 
-### Auto-scrolling to fields (ScrollView)
+## Auto-scrolling to fields (ScrollView)
 
 ## License
 
