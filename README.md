@@ -315,6 +315,8 @@ And you can nest layouts:
 </Form>
 ```
 
+_Note: A working example of the above can be found in the `demo` folder._
+
 ## Form validation and submission
 
 You must provide a `validate` property to the form, the value of which is a
@@ -418,7 +420,7 @@ const { name, isMale } = this.state
 </Form>
 ```
 
-There is a fully working example of a custom component (a dropdown using [react-native-modal-filter-picker](https://github.com/hiddentao/react-native-modal-filter-picker)) in the [demo app](https://github.com/hiddentao/react-native-advanced-forms/tree/master/demo).
+_Note: There is a working example of a custom component (a dropdown using [react-native-modal-filter-picker](https://github.com/hiddentao/react-native-modal-filter-picker)) in the `demo` folder._
 
 
 ## Auto-scrolling to fields (ScrollView)
