@@ -17,6 +17,7 @@ Features:
 * Easily integrate your own custom components
 * Component-based - use with or without Redux
 * Compatible with React Native 0.40+
+* Successfully used in production apps
 
 ## Installation
 
