@@ -162,7 +162,7 @@ Properties:
 | `validate` | `function (Object values)` | **required** | Called to validate form values. Must return an `Object` mapping field name to validation error. If it returns `{}` then it means all fields are valid. |
 | `onValidationError` | `function (Array badFieldNames)` | `null` | Called when validation fails.  |
 | `onFocusField` | `function (String fieldName, Function callback)` | `null` | Called when form is about to auto-focus a field. The `callback` must be invoked for focussing to proceed.  |
-| `style` | `Any` | `null` | Styling to apply to form container element.  |
+| `style` | Any | `null` | Styling to apply to form container element.  |
 
 Methods:
 
@@ -180,7 +180,8 @@ Properties:
 
 | Prop | Type | Default | Description |
 | --------- | --------- | --------- | --------- |
-| `style` | `Any` | `null` | Styling to apply to form container element.  |
+| `style` | Any | `null` | Styling to apply to form container element.  |
+
 
 ### Form.Section
 
@@ -193,9 +194,9 @@ Properties:
 | Prop | Type | Default | Description |
 | --------- | --------- | --------- | --------- |
 | `title` | `String` | `null` | The title text to show.  |
-| `style` | `Any` | `null` | Style to apply to root container.  |
-| `layoutStyle` | `Any` | `null` | Style to apply to nested `Form.Layout`.  |
-| `titleTextStyle` | `Any` | `null` | Style to apply to title text, is shown.  |
+| `style` | Any | `null` | Style to apply to root container.  |
+| `layoutStyle` | Any | `null` | Style to apply to nested `Form.Layout`.  |
+| `titleTextStyle` | Any | `null` | Style to apply to title text, is shown.  |
 
 ### Form.Field
 
@@ -224,8 +225,17 @@ A text field designed to work well with a `Form`.
 | `error` | Any | `null` | The current field validation error. If set then the field is in "error" mode. |
 | `style` | Any | `null` | The style for the text field in non-error mode.  |
 | `errorStyle` | Any | `null` | The style for the text field in error mode.  |
+| `getParentScrollView` | `Function` | `null` | Function to get reference to scroll view further up the UI hierarchy (if any). This is used to auto-scroll the scroll view such that the text field is visible whenever it receives focus.  |
 | `onSubmit` | `Function` | `null` | Usually set by the parent `Form.Field`.  |
 | `onChange` | `Function` | `null` | Usually set by the parent `Form.Field`.  |
+
+Methods:
+
+| Method | Returns | Description |
+| --------- | --------- | --------- |
+| `focus` | `undefined` | Focus this field (should show the keyboard). |
+| `unfocus` | `undefined` | Unfocus this field (should hide the keyboard). |
+| `getValue` | Any | Get current field value (will return `this.props.values`). |
 
 
 ### Form.Label
@@ -356,7 +366,91 @@ field (i.e. you enter text and then press _done_ or the equivalent on your
 
 ## Custom components
 
+You can integrate your own custom form component into a `Form`, as long as you follow certain rules:
+
+1. Your component must expose `focus()`, `unfocus()` and `getValue()` methods, just like as `Form.TextField` does.
+2. Your component must call `this.props.onChange()` when its value changes.
+3. Your component must call `this.props.onSubmit()` when it gets "submitted", e.g. for text fields the user may be press _Done_ on the keyboard to submit the input.
+
+Let's say we wish to integrate the React Native `Switch` component. Here is how we might define it:
+
+```js
+import { Switch } from 'react-native'
+
+class CustomSwitch extends Component {
+  render () {
+    const { turnedOn } = this.props
+
+    return (
+      <Switch
+        value={turnedOn}
+        onValueChange={this.onPress}
+      />
+    )
+  }
+
+  onPress = () => {
+    this.props.onChange(!this.props.turnedOn)
+  }
+
+  getValue () {
+    return this.props.turnedOn
+  }
+
+  // still need these methods even if they're empty
+  focus () { }
+  unfocus () {}
+}
+```
+
+In our form code we would then use it as such:
+
+```js
+const { name, isMale } = this.state
+
+<Form onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
+  <Form.Field name="name">
+    <Form.TextField value={name} />
+  </Form.Field>
+  <Form.Field name="isMale">
+    <CustomSwitch turnedOn={isMale} />
+  </Form.Field>
+</Form>
+```
+
+There is a fully working example of a custom component (a dropdown using [react-native-modal-filter-picker](https://github.com/hiddentao/react-native-modal-filter-picker)) in the [demo app](https://github.com/hiddentao/react-native-advanced-forms/tree/master/demo).
+
+
 ## Auto-scrolling to fields (ScrollView)
+
+Sometimes you will need to place your form within a React Native `ScrollView` because it is longer than the height of the screen. In such cases the problem with auto-focussing fields is that the focussed field may not be visible in the current scroll area.
+
+Thus, when a field receives focus it must be able to tell the `ScrollView` to scroll to it such that it's visible. The `Form.TextField` component already does this, as long as you pass in the `getParentScrollView` prop:
+
+```js
+<ScrollView ref="scrollView">
+  <Form onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
+
+    <Form.Layout>{ /* other stuff here */ }</Form.Layout>
+
+    <Form.Field name="name">
+      <Form.TextField value={name} getParentScrollView={() => this.refs.scrollView} />
+    </Form.Field>
+
+    <Form.Layout>{ /* other stuff here */ }</Form.Layout>
+
+    <Form.Field name="age">
+      <Form.TextField value={age} getParentScrollView={() => this.refs.scrollView} />
+    </Form.Field>
+
+    <Form.Layout>{ /* other stuff here */ }</Form.Layout>
+
+  </Form>
+</ScrollView>
+```
+
+Internally, `Form.TextField` uses `Form.utils.scrollToComponentInScrollView()` to actually perform the scroll. When building your own form component you can use this method too to achieve the same effect.
+
 
 ## License
 

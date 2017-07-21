@@ -60,6 +60,7 @@ TextField.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  getParentScrollView: PropTypes.func,
   error: PropTypes.any,
   style: PropTypes.any,
   errorStyle: PropTypes.any,
