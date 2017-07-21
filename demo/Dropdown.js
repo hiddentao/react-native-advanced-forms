@@ -34,6 +34,9 @@ export default class Dropdown extends Component {
           visible={picking}
           options={options}
           onSelect={this.onSelect}
+          modal={{
+            onRequestClose: this.onHide
+          }}
           onCancel={this.onHide} />
         <TouchableOpacity style={touchableStyle} onPress={this.onShow}>
           <Text style={buttonTextStyle}>
