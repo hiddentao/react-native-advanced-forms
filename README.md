@@ -29,7 +29,7 @@ to copy `src` to `demo/src` for the app to successfully build)._
 
 ## Usage
 
-This code will render the form you can see in the demo animation above:
+This code will render a form similar to what can be seen in the demo animation above:
 
 ```js
 import React from 'react'
@@ -89,9 +89,7 @@ export default class App extends React.Component {
   }
 
   onChange = (values) => {
-    this.setState({
-      ...values,
-    })
+    this.setState(values)
   }
 
   onSubmit = (values) => {
@@ -150,11 +148,166 @@ const styles = StyleSheet.create({
 
 ## API and props
 
-## Flexible layouts
+**Form**
 
-The `Form.Layout`
+This is the root component for a form and is responsible for co-ordinating
+form value changes and auto-focussing components.
 
-## Form validation and submission
+Properties:
+
+| Prop | Type | Default | Description |
+| --------- | --------- | --------- | --------- |
+| `onChange` | `function (Object values)` | **required** | Called whenever form values change |
+| `onSubmit` | `function (Object values)` | **required** | Called form values have passed validation and form is to be submitted |
+| `validate` | `function (Object values)` | **required** | Called to validate form values. Must return an `Object` mapping field name to validation error. If it returns `{}` then it means all fields are valid. |
+| `onValidationError` | `function (Array badFieldNames)` | `null` | Called when validation fails.  |
+| `onFocusField` | `function (String fieldName, Function callback)` | `null` | Called when form is about to auto-focus a field. The `callback` must be invoked for focussing to proceed.  |
+| `style` | `Any` | `null` | Styling to apply to form container element.  |
+
+Methods:
+
+| Method | Returns | Description |
+| --------- | --------- | --------- |
+| `validateAndSubmit` | `undefined` | Validate the form field values and submit it if validation succeeds. |
+| `unfocus` | `undefined` | Unfocus all form fields. |
+| `getValues` | `Object` | Get current form field values. |
+
+**Form.Layout**
+
+This component works similarly to React Native `View` and is to be used to create whatever type of layout your require for your form. `Form.Layout` instances can be nested within each other to multiple levels without issue.
+
+Properties:
+
+| Prop | Type | Default | Description |
+| --------- | --------- | --------- | --------- |
+| `style` | `Any` | `null` | Styling to apply to form container element.  |
+
+**Form.Section**
+
+This is a convenience component which constructs a `Form.Layout` to wrap its children but additionally attaches text above it:
+
+![section](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/section.png "Section")
+
+Properties:
+
+| Prop | Type | Default | Description |
+| --------- | --------- | --------- | --------- |
+| `title` | `String` | `null` | The title text to show.  |
+| `style` | `Any` | `null` | Style to apply to root container.  |
+| `layoutStyle` | `Any` | `null` | Style to apply to nested `Form.Layout`.  |
+| `titleTextStyle` | `Any` | `null` | Style to apply to title text, is shown.  |
+
+**Form.Field**
+
+This component **must** wrap every actual input element. It is responsible for setting up `onChange` and `onSubmit` handlers as well as pass through focus/unfocus and error display commands from the parent form.
+
+If a `label` gets passed in it will use `Form.LabelGroup` and `Form.Label` to render a label above the wrapped form field component.
+
+| Prop | Type | Default | Description |
+| --------- | --------- | --------- | --------- |
+| `name` | `String` | **required** | The field name.  |
+| `label` | `String` | `null` | The field label.  |
+| `labelStyle` | Any | `null` | The field label container style.  |
+| `labelTextStyle` | Any | `null` | The field label text style.  |
+| `labelRightContent` | Any | `null` | What to show in the right-hand side of the field label container (using `Form.LabelGroup`).  |
+| `style` | Any | `null` | The style for the root container.  |
+| `onSubmit` | `Function` | `null` | Usually set by the parent `Form`.  |
+| `onChange` | `Function` | `null` | Usually set by the parent `Form`.  |
+
+**Form.TextField**
+
+A text field designed to work well with a `Form`.
+
+| Prop | Type | Default | Description |
+| --------- | --------- | --------- | --------- |
+| `value` | Any | `null` | The field value.  |
+| `error` | Any | `null` | The current field validation error. If set then the field is in "error" mode. |
+| `style` | Any | `null` | The style for the text field in non-error mode.  |
+| `errorStyle` | Any | `null` | The style for the text field in error mode.  |
+| `onSubmit` | `Function` | `null` | Usually set by the parent `Form.Field`.  |
+| `onChange` | `Function` | `null` | Usually set by the parent `Form.Field`.  |
+
+
+**Form.Label**
+
+Text to display above a form field element as its label. Gets automatically rendered by `Form.Field` if a label has been set.
+
+| Prop | Type | Default | Description |
+| --------- | --------- | --------- | --------- |
+| `style` | Any | `null` | The style for the root container.  |
+| `textStyle` | Any | `null` | The style for the label text.  |
+
+**Form.LabelGroup**
+
+A helper component which wraps a `Form.Label`, allowing for additional components to be displayed alongside it.
+
+## Technical notes
+
+### Flexible layouts
+
+The `Form.Layout` component is key to achieving flexible layouts. By default, if you don't use `Form.Layout` then components will be stacked on top of each other (assuming default `flexDirection` for the `Form`):
+
+```js
+<Form onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
+  <Form.Field name="firstName">
+    <Form.TextField value={firstName} />
+  </Form.Field>
+  <Form.Field name="lastName">
+    <Form.TextField value={lastName} />
+  </Form.Field>
+  <Form.Field name="age">
+    <Form.TextField value={age} />
+  </Form.Field>
+</Form>
+```
+
+If you wish to place the first two components next to each other then simply wrap them within a `Form.Layout` with the appropriate styling:
+
+```js
+<Form onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
+
+  <Form.Layout style={{ flexDirection: 'row' }}>
+    <Form.Field name="firstName">
+      <Form.TextField value={firstName} />
+    </Form.Field>
+    <Form.Field name="lastName">
+      <Form.TextField value={lastName} />
+    </Form.Field>
+  </Form.Layout>
+
+  <Form.Field name="age">
+    <Form.TextField value={age} />
+  </Form.Field>
+
+</Form>
+```
+
+And you can nest layouts:
+
+```js
+<Form onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
+
+  <Form.Layout style={{ marginBottom: 10 }}>
+    <Form.Layout style={{ flexDirection: 'row' }}>
+      <Form.Field name="firstName">
+        <Form.TextField value={firstName} />
+      </Form.Field>
+      <Form.Field name="lastName">
+        <Form.TextField value={lastName} />
+      </Form.Field>
+    </Form.Layout>
+  </Form.Layout>
+
+  <Form.Layout style={{ marginBottom: 10 }}>
+    <Form.Field name="age">
+      <Form.TextField value={age} />
+    </Form.Field>
+  </Form.Layout>
+
+</Form>
+```
+
+### Form validation and submission
 
 You must provide a `validate` property to the form, the value of which is a
 function which returns which fields have failed validation, for example:
@@ -203,10 +356,9 @@ field (i.e. you enter text and then press _done_ or the equivalent on your
 
 ![Demo2](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/rec2.gif "Demo2")
 
+### Custom components
 
-## Auto-scrolling to fields (ScrollView)
-
-## Custom components
+### Auto-scrolling to fields (ScrollView)
 
 ## License
 
