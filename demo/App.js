@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Alert, StyleSheet, Text, View } from 'react-native'
 
 import Form from './src'
+import Dropdown from './Dropdown'
 
 export default class App extends React.Component {
   constructor (props, ctx) {
@@ -23,24 +24,26 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Form ref="form" onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
-          <Form.Layout style={styles.row}>
-            <Form.Layout style={styles.columns}>
-              <Form.Field name="firstName" label="First name" style={styles.field}>
-                <Form.TextField value={firstName} />
-              </Form.Field>
-              <Form.Field name="lastName" label="Last name" style={styles.field}>
-                <Form.TextField value={lastName} />
-              </Form.Field>
-            </Form.Layout>
-          </Form.Layout>
+          <Form.Section style={styles.section} title="Name" layoutStyle={styles.sectionLayout} titleTextStyle={styles.sectionTitleText}>
+            <Form.Field name="firstName" label="First name" style={styles.field}>
+              <Form.TextField value={firstName}/>
+            </Form.Field>
+            <Form.Field name="lastName" label="Last name" style={styles.field}>
+              <Form.TextField value={lastName} />
+            </Form.Field>
+          </Form.Section>
           <Form.Layout style={styles.row}>
             <Form.Field name="age" label="Age" style={styles.ageField}>
               <Form.TextField value={age} keyboardType='numeric'/>
             </Form.Field>
           </Form.Layout>
           <Form.Layout style={styles.row}>
-            <Form.Field name="country" label="Country" style={styles.field}>
-              <Form.TextField value={country} />
+            <Form.Field name="country" label="Country">
+              <Dropdown
+                options={COUNTRIES}
+                selected={country}
+                placeholderText='Select country'
+              />
             </Form.Field>
           </Form.Layout>
         </Form>
@@ -89,18 +92,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30
   },
   row: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
-  columns: {
+  section: {
+    flex: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  sectionLayout: {
+    alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    padding: 10,
+    paddingTop: 20,
+    borderWidth: 1,
+    borderColor: '#999'
+  },
+  sectionTitleText: {
+    width: 50,
+    textAlign: 'center',
+    marginBottom: -10,
+    backgroundColor: '#fff',
+    zIndex: 2,
   },
   field: {
+    flex: 1,
     marginRight: 10,
   },
   ageField: {
-    width: 60,
+    width: 90,
   },
   button: {
     width: 80,
@@ -113,3 +135,15 @@ const styles = StyleSheet.create({
     color: 'red'
   }
 })
+
+
+const COUNTRIES = [
+  {
+    key: 'uk',
+    label: 'UK'
+  },
+  {
+    key: 'india',
+    label: 'India'
+  }
+]

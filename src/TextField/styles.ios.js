@@ -6,7 +6,8 @@ const normalStyle = {
   backgroundColor: '#fff',
   borderRadius: 3,
   paddingLeft: 10,
-  paddingVertical: 5,
+  paddingVertical: 10,
+  height: 50,
   fontSize: 18,
 }
 
