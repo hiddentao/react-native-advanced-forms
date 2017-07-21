@@ -2,7 +2,7 @@ import React, { Component, PropTypes, Children, cloneElement } from 'react'
 import { View } from 'react-native'
 
 import styles from './styles'
-import { componentsCall, VALIDATION_RESULT } from './utils'
+import utils, { componentsCall, VALIDATION_RESULT } from './utils'
 
 export default class Form extends Component {
   render () {
@@ -108,6 +108,7 @@ Form.propTypes = {
   style: PropTypes.object,
 }
 
+Form.utils = utils
 Form.VALIDATION_RESULT = VALIDATION_RESULT
 
 import Field from './Field'
