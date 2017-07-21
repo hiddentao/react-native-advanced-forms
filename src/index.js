@@ -105,7 +105,7 @@ Form.propTypes = {
   validate: PropTypes.func.isRequired,
   onValidationError: PropTypes.func,
   onFocusField: PropTypes.func,
-  style: PropTypes.object,
+  style: PropTypes.any,
 }
 
 Form.utils = utils
