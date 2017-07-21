@@ -217,7 +217,7 @@ If a `label` gets passed in it will use `Form.LabelGroup` and `Form.Label` to re
 
 ### Form.TextField
 
-A text field designed to work well with a `Form`.
+A text field designed to work well with a `Form`. It handles validation error display and scroll view integration.
 
 | Prop | Type | Default | Description |
 | --------- | --------- | --------- | --------- |
@@ -366,6 +366,8 @@ field (i.e. you enter text and then press _done_ or the equivalent on your
 
 ![Demo2](https://github.com/hiddentao/react-native-advanced-forms/raw/master/recordings/rec2.gif "Demo2")
 
+_Note: `Form.Field` components will pass an `error` object down to their children (the actual input elements) if a validation error occurs_.
+
 ## Custom components
 
 You can integrate your own custom form component into a `Form`, as long as you follow certain rules:
@@ -419,6 +421,8 @@ const { name, isMale } = this.state
   </Form.Field>
 </Form>
 ```
+
+Your component will receive an `error` prop containing a validation error whenever validation fails. It is up to you if/when you make use of this.
 
 _Note: There is a working example of a custom component (a dropdown using [react-native-modal-filter-picker](https://github.com/hiddentao/react-native-modal-filter-picker)) in the `demo` folder._
 
