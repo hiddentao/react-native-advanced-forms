@@ -1,4 +1,5 @@
-import React, { Component, Children, cloneElement, PropTypes } from 'react'
+import React, { Component, Children, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 
 import { componentsCall } from '../utils'

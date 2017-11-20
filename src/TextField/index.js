@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { TextInput as NativeTextInput } from 'react-native'
 
 import { scrollToComponentInScrollView } from '../utils'

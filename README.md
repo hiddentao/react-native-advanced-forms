@@ -23,6 +23,12 @@ Features:
 
 Use NPM/Yarn to install package: `react-native-advanced-forms`
 
+_Note: You must also have the `prop-types` package installed._
+
+```shell
+npm install
+```
+
 ## Demo
 
 A working demo app can be found in the `demo` folder _(Note that you will need

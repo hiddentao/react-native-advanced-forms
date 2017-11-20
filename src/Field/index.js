@@ -1,4 +1,5 @@
-import React, { Component, PropTypes, Children, cloneElement } from 'react'
+import React, { Component, Children, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 
 import LabelGroup from '../LabelGroup'
