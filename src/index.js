@@ -32,6 +32,10 @@ export default class Form extends Component {
   }
 
   canSubmit () {
+    const {
+      validate
+    } = this.props
+
     // get current field values
     const values = this.getValues()
     // validate field values
