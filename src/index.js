@@ -31,6 +31,15 @@ export default class Form extends Component {
     componentsCall(this.refs, 'unfocusFields')
   }
 
+  canSubmit () {
+    // get current field values
+    const values = this.getValues()
+    // validate field values
+    const badFields = validate(values) || {}
+
+    return !(Object.keys(badFields).length)
+  }
+
   onSubmitField = (submittedFieldName) => {
     const {
       validate,
