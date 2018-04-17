@@ -62,7 +62,7 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Form ref="form" onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
+        <Form ref={this._onFormRef} onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
           <Form.Layout style={styles.row}>
             <Form.Layout style={styles.columns}>
               <Form.Field name="firstName" label="First name" style={styles.field}>
@@ -86,13 +86,18 @@ export default class App extends React.Component {
         </Form>
         <View style={styles.button}>
           <Button
-            onPress={() => this.refs.form.validateAndSubmit()}
+            disabled={this.form && !this.form.canSubmit()}
+            onPress={() => this.form.validateAndSubmit()}
             title="Submit"
             color="#841584"
           />
         </View>
       </View>
     )
+  }
+
+  _onFormRef = e => {
+    this.form = e
   }
 
   onChange = (values) => {
@@ -442,19 +447,19 @@ Sometimes you will need to place your form within a React Native `ScrollView` be
 Thus, when a field receives focus it must be able to tell the `ScrollView` to scroll to it such that it's visible. The `Form.TextField` component already does this, as long as you pass in the `getParentScrollView` prop:
 
 ```js
-<ScrollView ref="scrollView">
+<ScrollView ref={e => { this.scrollView = e; }}>
   <Form onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}>
 
     <Form.Layout>{ /* other stuff here */ }</Form.Layout>
 
     <Form.Field name="name">
-      <Form.TextField value={name} getParentScrollView={() => this.refs.scrollView} />
+      <Form.TextField value={name} getParentScrollView={() => this.scrollView} />
     </Form.Field>
 
     <Form.Layout>{ /* other stuff here */ }</Form.Layout>
 
     <Form.Field name="age">
-      <Form.TextField value={age} getParentScrollView={() => this.refs.scrollView} />
+      <Form.TextField value={age} getParentScrollView={() => this.scrollView} />
     </Form.Field>
 
     <Form.Layout>{ /* other stuff here */ }</Form.Layout>
