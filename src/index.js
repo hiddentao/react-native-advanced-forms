@@ -49,7 +49,8 @@ export default class Form extends Component {
       validate,
       onSubmit,
       onFocusField,
-      onValidationError
+      onValidationError,
+      submitOnReturn
     } = this.props
 
     // was whole form submitted rather than submit a single input?
@@ -88,7 +89,9 @@ export default class Form extends Component {
         : _focusCall()
 
     } else {
-      onSubmit(values)
+      if (submitOnReturn) {
+        onSubmit(values)
+      }
     }
   }
 
@@ -119,7 +122,12 @@ Form.propTypes = {
   validate: PropTypes.func.isRequired,
   onValidationError: PropTypes.func,
   onFocusField: PropTypes.func,
+  submitOnReturn: PropTypes.bool,
   style: PropTypes.any,
+}
+
+Form.defaultProps = {
+  submitOnReturn: true
 }
 
 Form.utils = utils

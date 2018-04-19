@@ -169,6 +169,7 @@ Properties:
 
 | Prop | Type | Default | Description |
 | --------- | --------- | --------- | --------- |
+| `submitOnReturn` | `boolean` | `true` | If turned off then the form will NOT be auto-submitted when the user presses the Return key after filling in the final field |
 | `onChange` | `function (Object values)` | **required** | Called whenever form values change |
 | `onSubmit` | `function (Object values)` | **required** | Called form values have passed validation and form is to be submitted |
 | `validate` | `function (Object values)` | **required** | Called to validate form values. Must return an `Object` mapping field name to validation error. If it returns `{}` then it means all fields are valid. |
