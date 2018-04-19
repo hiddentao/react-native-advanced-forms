@@ -89,7 +89,8 @@ export default class Form extends Component {
         : _focusCall()
 
     } else {
-      if (submitOnReturn) {
+      // either submitOnReturn must be on OR we're manually submitting the form
+      if (submitOnReturn || submittedWholeForm) {
         onSubmit(values)
       }
     }
