@@ -182,6 +182,7 @@ Methods:
 | Method | Returns | Description |
 | --------- | --------- | --------- |
 | `validateAndSubmit` | `undefined` | Validate the form field values and submit it if validation succeeds. |
+| `validate` | `undefined` | Validate the form field values and highlight errors if any. |
 | `unfocus` | `undefined` | Unfocus all form fields. |
 | `getValues` | `Object` | Get current form field values. |
 | `canSubmit` | `boolean` | Get whether current form field values are valid such that form can be submitted. |

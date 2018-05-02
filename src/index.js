@@ -56,6 +56,25 @@ export default class Form extends Component {
     // was whole form submitted rather than submit a single input?
     const submittedWholeForm = !submittedFieldName
 
+    if (this._validate(submittedWholeForm)) {
+      // either submitOnReturn must be on OR we're manually submitting the form
+      if (submitOnReturn || submittedWholeForm) {
+        onSubmit(values)
+      }
+    }
+  }
+
+  validate () {
+    return this._validate(true)
+  }
+
+  _validate (shouldCountMissingFields) {
+    const {
+      validate,
+      onFocusField,
+      onValidationError
+    } = this.props
+
     // get current field values
     const values = this.getValues()
     // validate field values
@@ -71,8 +90,7 @@ export default class Form extends Component {
       badFieldNames.forEach(f => {
         const fieldValidationResult = badFields[f]
 
-        // only count missing fields if we submitted the form as a whole
-        if (VALIDATION_RESULT.MISSING !== fieldValidationResult || submittedWholeForm) {
+        if (VALIDATION_RESULT.MISSING !== fieldValidationResult || shouldCountMissingFields) {
           componentsCall(this.refs, 'showFieldError', f, fieldValidationResult)
         }
       })
@@ -88,12 +106,10 @@ export default class Form extends Component {
         ? onFocusField(firstBadFieldName, _focusCall)
         : _focusCall()
 
-    } else {
-      // either submitOnReturn must be on OR we're manually submitting the form
-      if (submitOnReturn || submittedWholeForm) {
-        onSubmit(values)
-      }
+      return false
     }
+
+    return true
   }
 
   onChangeField = (fieldName, newValues) => {
