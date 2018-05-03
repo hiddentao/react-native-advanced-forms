@@ -59,7 +59,7 @@ export default class Form extends Component {
     if (this._validate(submittedWholeForm)) {
       // either submitOnReturn must be on OR we're manually submitting the form
       if (submitOnReturn || submittedWholeForm) {
-        onSubmit(values)
+        onSubmit(this.getValues())
       }
     }
   }
